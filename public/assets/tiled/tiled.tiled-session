@@ -1,0 +1,102 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "tiny.json",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "": {
+            "scaleInDock": 5.5014,
+            "scaleInEditor": 1
+        },
+        "#TinyFarm_Tiles": {
+            "scaleInDock": 1
+        },
+        "#TinyFarm_Tiles_collision": {
+            "scaleInEditor": 1
+        },
+        "/Users/jewelry/projects/archive_phaser_jewvoid_client/public/assets/map/bg.tsj": {
+            "scaleInDock": 1
+        },
+        "/Users/jewelry/projects/archive_phaser_jewvoid_client/public/assets/map/map.json": {
+            "scale": 0.9018,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2398.5362608117093,
+                "y": 2365.269461077844
+            }
+        },
+        "/Users/jewelry/projects/archive_phaser_jewvoid_client/public/assets/map/map.json#bg": {
+            "scaleInDock": 1
+        },
+        "/Users/jewelry/projects/archive_phaser_jewvoid_client/public/assets/map/map.tmj": {
+            "scale": 2.0029,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2264.9657995905936,
+                "y": 2490.8882120924663
+            }
+        },
+        "tiny.json": {
+            "expandedGroupLayers": [
+                5
+            ],
+            "scale": 1.2676,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 241.40107289365727,
+                "y": 177.1063426948564
+            }
+        },
+        "tiny.json#TinyFarm_Tiles": {
+            "scaleInDock": 5.0797,
+            "scaleInEditor": 1
+        },
+        "tiny.json#tileset_wall": {
+            "scaleInDock": 2.1541
+        },
+        "tiny.json#wall": {
+            "scaleInDock": 1.8013
+        },
+        "tiny.tmx": {
+            "scale": 1.434,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 265.69037656903765,
+                "y": 237.79637377963735
+            }
+        },
+        "tiny.tmx#TinyFarm_Tiles": {
+            "scaleInDock": 5.5014
+        }
+    },
+    "last.exportedFilePath": "/Users/jewelry/projects/project_alpha/public/assets/tiled",
+    "last.imagePath": "/Users/jewelry/projects/project_alpha/public/assets/tiled/TinyRanch_Assets",
+    "map.height": 250,
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
+    "map.layerDataFormat": "1",
+    "map.tileHeight": 8,
+    "map.tileWidth": 8,
+    "map.width": 250,
+    "openFiles": [
+        "tiny.json"
+    ],
+    "project": "tiled.tiled-project",
+    "property.type": "bool",
+    "recentFiles": [
+        "tiny.json",
+        "tiny.tmx",
+        "/Users/jewelry/projects/archive_phaser_jewvoid_client/public/assets/map/map.tmj",
+        "/Users/jewelry/projects/archive_phaser_jewvoid_client/public/assets/map/map.json"
+    ],
+    "tileset.embedInMap": true,
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}
