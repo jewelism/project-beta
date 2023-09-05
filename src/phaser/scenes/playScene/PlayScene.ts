@@ -1,21 +1,13 @@
-import { EnemyCounter } from "@/phaser/objects/counter/EnemyCounter";
-import { MoneyCounter } from "@/phaser/objects/counter/MoneyCounter";
-import { createUI } from "@/phaser/scenes/playScene/createUI";
-import { PhaseCounter } from "@/phaser/objects/counter/PhaseCounter";
 import { Player } from "@/phaser/objects/Player";
-import { createEnemy } from "@/phaser/scenes/playScene/createEnemy";
+import { Waterfall } from "@/phaser/objects/Waterfall";
 
 export class PlayScene extends Phaser.Scene {
   player: Player;
   missiles: Phaser.GameObjects.Group;
   enemies: Phaser.GameObjects.Group;
-  enemyCounter: EnemyCounter;
-  moneyCounter: MoneyCounter;
-  phaseCounter: PhaseCounter;
   money: number = 0;
   phase: number = 1;
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
-  debugGraphics: Phaser.GameObjects.Graphics;
 
   constructor() {
     super("PlayScene");
@@ -29,19 +21,33 @@ export class PlayScene extends Phaser.Scene {
       startFrame: 84,
       endFrame: 84,
     });
+    this.load.spritesheet("waterfall_empty", "assets/dungeon.png", {
+      frameWidth: 16,
+      frameHeight: 16,
+      startFrame: 31,
+      endFrame: 31,
+    });
+    this.load.spritesheet("waterfall_head", "assets/dungeon.png", {
+      frameWidth: 16,
+      frameHeight: 16,
+      startFrame: 20,
+      endFrame: 20,
+    });
+    this.load.spritesheet("waterfall", "assets/dungeon.png", {
+      frameWidth: 16,
+      frameHeight: 16,
+      startFrame: 32,
+      endFrame: 32,
+    });
   }
   create() {
     this.cursors = this.input.keyboard.createCursorKeys();
-    const { map, collision_layer, spawnPoint } = this.createMap();
-    console.log("spawnPoint", spawnPoint.x, spawnPoint.y);
+    const { map, collision_layer, playerSpawnPoint } = this.createMap();
 
     this.player = new Player(this, {
-      x: spawnPoint.x * 2,
-      y: spawnPoint.y * 2,
+      x: playerSpawnPoint.x,
+      y: playerSpawnPoint.y,
     });
-    this.cameras.main
-      .setBounds(0, 0, map.heightInPixels * 2, map.widthInPixels * 2)
-      .startFollow(this.player);
 
     // this.enemies = this.physics.add.group({
     //   immovable: true,
@@ -51,6 +57,9 @@ export class PlayScene extends Phaser.Scene {
     // new Animal(this, { x: 400, y: 200, frameNo: 8, hp: 5 });
     // new Animal(this, { x: 500, y: 200, frameNo: 10, hp: 5 });
     // new Enemy(this, { hp: 5, spriteKey: "pixel_animals", frameNo: 12 });
+    // this.physics.add.collider(this.player, waterfalls, () => {
+    //   console.log("collision_layer collide");
+    // });
     this.physics.add.collider(this.player, collision_layer, () => {
       console.log("collision_layer collide");
     });
@@ -70,45 +79,46 @@ export class PlayScene extends Phaser.Scene {
     // this.enemies.getChildren().forEach((enemy: Animal) => {
     //   enemy.setImmovable(true);
     // });
+    this.cameras.main
+      .setBounds(0, 0, map.heightInPixels, map.widthInPixels)
+      .startFollow(this.player)
+      .setZoom(2);
   }
-  update() {
-    // const enemyCount = this.enemies.getChildren().length;
-    // if (enemyCount >= EnemyCounter.TOTAL) {
-    //   console.log("game over");
-    //   return;
-    // }
-    // this.enemyCounter.setValue(enemyCount);
-  }
+  update() {}
   shutdown() {}
   createMap() {
     const map = this.make.tilemap({
       key: "map",
     });
     const tiles = map.addTilesetImage("dungeon", "tiles");
-    // const wallTiles = map.addTilesetImage("tileset_wall", "tileset_wall");
-    const bg_layer = map.createLayer("dungeon", tiles);
+    map.createLayer("dungeon", tiles);
     const collision_layer = map.createLayer("dungeon_collision", tiles);
-    bg_layer.setScale(2);
-    collision_layer.setScale(2);
     collision_layer.setCollisionByExclusion([-1]);
-    // collision_layer.setCollisionByProperty({ collision: true });
 
-    // wall_layer.setCollisionBetween(0, 10000);
-    // wall_layer.forEachTile((tile) => {
-    //   tile.setCollision(true, true, true, true);
-    // });
-    // wall_layer.setCollisionByProperty({ collision: true });
-    // console.log(wall_layer);
-
-    // const collisionTiles = map.findTile((tile) => {
-    //   console.log(tile.properties);
-    //   // return tile.properties?.find((p) => p.name === "collision");
-    // });
-
-    const spawnPoint = map.findObject("playerSpawn", ({ type }) => {
-      return type === "playerSpawn";
+    const playerSpawnPoint = map.findObject("playerSpawn", ({ name }) => {
+      return name === "playerSpawn1";
     });
+    map
+      .filterObjects("waterfall", (obj) => {
+        return obj.type === "waterfall";
+      })
+      .forEach((waterfall) => {
+        console.log("waterfall", waterfall.x, waterfall.y, waterfall.name);
 
-    return { map, collision_layer, spawnPoint };
+        const waterfall1 = new Waterfall(this, {
+          x: waterfall.x + waterfall.width / 2,
+          y: waterfall.y - waterfall.height / 2,
+        });
+      });
+
+    // console.log(
+    //   "waterfall",
+    //   waterfall1.x,
+    //   waterfall1.y,
+    //   waterfall1.name,
+    //   waterfall2
+    // );
+
+    return { map, collision_layer, playerSpawnPoint };
   }
 }

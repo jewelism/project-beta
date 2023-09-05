@@ -9,7 +9,6 @@ const config: Phaser.Types.Core.GameConfig = {
   pixelArt: true,
   scale: {
     mode: Phaser.Scale.FIT,
-    // zoom: 4,
   },
   physics: {
     default: "arcade",
@@ -18,6 +17,7 @@ const config: Phaser.Types.Core.GameConfig = {
     },
   },
   // parent: "body",
+  render: { pixelArt: true, antialias: false },
   scene: [PlayScene],
   // fps: {
   //   target: 5,
