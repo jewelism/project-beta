@@ -21,110 +21,83 @@ export class PlayScene extends Phaser.Scene {
     super("PlayScene");
   }
   preload() {
-    // this.load.tilemapTiledJSON("map", "tiled/tiny.json");
-    this.load.image(
-      "tiles",
-      "assets/tiled/TinyRanch_Assets/TinyFarm_Tiles.png"
-    );
-    this.load.image(
-      "tileset_wall",
-      "assets/tiled/TinyRanch_Assets/tileset_wall.png"
-    );
-    this.load.tilemapTiledJSON("map", "assets/tiled/tiny.json");
-    this.load.spritesheet(
-      "player",
-      "assets/tiled/TinyRanch_Assets/TinyFarm_Characters.png",
-      {
-        frameWidth: 8,
-        frameHeight: 8,
-      }
-    );
-    this.load.spritesheet(
-      "pixel_animals",
-      "assets/tiled/TinyRanch_Assets/pixel_animals.png",
-      {
-        frameWidth: 16,
-        frameHeight: 16,
-      }
-    );
-    this.load.spritesheet(
-      "explosion",
-      "assets/tiled/TinyRanch_Assets/explosion.png",
-      {
-        frameWidth: 425 / 5,
-        frameHeight: 170 / 2,
-        startFrame: 1,
-        endFrame: 6,
-      }
-    );
-    this.load.spritesheet("bomb", "assets/tiled/TinyRanch_Assets/bomb.png", {
-      frameWidth: 64,
-      frameHeight: 64,
+    this.load.image("tiles", "assets/dungeon.png");
+    this.load.tilemapTiledJSON("map", "assets/tiled/dungeon.json");
+    this.load.spritesheet("player", "assets/dungeon.png", {
+      frameWidth: 16,
+      frameHeight: 16,
+      startFrame: 84,
+      endFrame: 84,
     });
   }
   create() {
     this.cursors = this.input.keyboard.createCursorKeys();
-    const { map, spawnPoint } = this.createMap();
+    const { map, collision_layer, spawnPoint } = this.createMap();
     console.log("spawnPoint", spawnPoint.x, spawnPoint.y);
 
-    this.player = new Player(this, { x: spawnPoint.x, y: spawnPoint.y });
+    this.player = new Player(this, {
+      x: spawnPoint.x * 2,
+      y: spawnPoint.y * 2,
+    });
     this.cameras.main
-      .setBounds(0, 0, map.heightInPixels, map.widthInPixels)
+      .setBounds(0, 0, map.heightInPixels * 2, map.widthInPixels * 2)
       .startFollow(this.player);
 
-    this.enemies = this.physics.add.group({
-      immovable: true,
-    });
+    // this.enemies = this.physics.add.group({
+    //   immovable: true,
+    // });
     // new Animal(this, { x: 200, y: 200, frameNo: 4, hp: 5 });
     // new Animal(this, { x: 300, y: 200, frameNo: 6, hp: 5 });
     // new Animal(this, { x: 400, y: 200, frameNo: 8, hp: 5 });
     // new Animal(this, { x: 500, y: 200, frameNo: 10, hp: 5 });
     // new Enemy(this, { hp: 5, spriteKey: "pixel_animals", frameNo: 12 });
-    // this.physics.add.collider(this.player, wall_layer, () => {
-    //   console.log("wall_layer collide");
+    this.physics.add.collider(this.player, collision_layer, () => {
+      console.log("collision_layer collide");
+    });
+    // this.physics.add.collider(this.player, this.enemies, () => {
+    //   console.log("this.player collide");
     // });
-    this.physics.add.collider(this.player, this.enemies, () => {
-      console.log("this.player collide");
-    });
-    this.physics.add.collider(this.enemies, this.enemies, () => {
-      console.log("this.enemies collide");
-    });
+    // this.physics.add.collider(this.enemies, this.enemies, () => {
+    //   console.log("this.enemies collide");
+    // });
     // new PixelAnimals(this, { x: 200, y: 100, frameNo: 3 });
     // new PixelAnimals(this, { x: 300, y: 100, frameNo: 5 });
     // new PixelAnimals(this, { x: 400, y: 100, frameNo: 7 });
     // new PixelAnimals(this, { x: 500, y: 100, frameNo: 9 });
     // 아래 생성 순서 중요
-    createUI.bind(this)();
-    createEnemy.bind(this)();
+    // createUI.bind(this)();
+    // createEnemy.bind(this)();
     // this.enemies.getChildren().forEach((enemy: Animal) => {
     //   enemy.setImmovable(true);
     // });
   }
   update() {
-    const enemyCount = this.enemies.getChildren().length;
+    // const enemyCount = this.enemies.getChildren().length;
     // if (enemyCount >= EnemyCounter.TOTAL) {
     //   console.log("game over");
     //   return;
     // }
-    this.enemyCounter.setValue(enemyCount);
+    // this.enemyCounter.setValue(enemyCount);
   }
   shutdown() {}
   createMap() {
     const map = this.make.tilemap({
       key: "map",
     });
-    const tiles = map.addTilesetImage("TinyFarm_Tiles", "tiles");
+    const tiles = map.addTilesetImage("dungeon", "tiles");
     // const wallTiles = map.addTilesetImage("tileset_wall", "tileset_wall");
-    const bg_layer = map.createLayer("bg", tiles);
-    const wall_layer = map.createLayer("wall", tiles);
-    bg_layer.setScale(3);
-    wall_layer.setScale(3);
+    const bg_layer = map.createLayer("dungeon", tiles);
+    const collision_layer = map.createLayer("dungeon_collision", tiles);
+    bg_layer.setScale(2);
+    collision_layer.setScale(2);
+    collision_layer.setCollisionByExclusion([-1]);
+    // collision_layer.setCollisionByProperty({ collision: true });
 
     // wall_layer.setCollisionBetween(0, 10000);
     // wall_layer.forEachTile((tile) => {
     //   tile.setCollision(true, true, true, true);
     // });
-    wall_layer.setCollisionByProperty({ collision: true });
+    // wall_layer.setCollisionByProperty({ collision: true });
     // console.log(wall_layer);
 
     // const collisionTiles = map.findTile((tile) => {
@@ -132,10 +105,10 @@ export class PlayScene extends Phaser.Scene {
     //   // return tile.properties?.find((p) => p.name === "collision");
     // });
 
-    const spawnPoint = map.findObject("player_spawn", (obj) => {
-      return (obj as any)?.properties?.every((p) => p.value);
+    const spawnPoint = map.findObject("playerSpawn", ({ type }) => {
+      return type === "playerSpawn";
     });
 
-    return { map, wall_layer, spawnPoint };
+    return { map, collision_layer, spawnPoint };
   }
 }

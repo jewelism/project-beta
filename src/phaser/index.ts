@@ -9,6 +9,7 @@ const config: Phaser.Types.Core.GameConfig = {
   pixelArt: true,
   scale: {
     mode: Phaser.Scale.FIT,
+    // zoom: 4,
   },
   physics: {
     default: "arcade",
