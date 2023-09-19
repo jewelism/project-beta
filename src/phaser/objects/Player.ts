@@ -1,14 +1,13 @@
-import { Missile } from "@/phaser/objects/Missile";
 import { PlayScene } from "../scenes/playScene/PlayScene";
-import { Enemy } from "@/phaser/objects/Enemy";
 import { GAME } from "@/phaser/constants";
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
+  blocked = false;
   attackTimer: Phaser.Time.TimerEvent;
   attackRange: number = 200;
   attackSpeed: number = 300;
   damage: number;
-  moveSpeed: number = 500;
+  moveSpeed: number = 300;
 
   constructor(scene, { x, y }) {
     super(scene, x, y, "player");
@@ -31,6 +30,9 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     //     frameRate: 5,
     //   });
     // });
+    // 왜 이런 보정이 필요한가?
+    this.x += this.width / 2;
+    this.y += this.height / 2;
     scene.missiles = scene.add.group();
 
     scene.add.existing(this);
@@ -42,7 +44,9 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   preUpdate() {
-    this.playerMove();
+    if (!this.blocked) {
+      this.playerMove();
+    }
     // if (!this.attackTimer) {
     //   this.attackTimer = this.scene.time.delayedCall(
     //     this.attackSpeed / GAME.speed,
@@ -53,36 +57,36 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     //   );
     // }
   }
-  get upgradeCost() {
-    return this.damage * 2;
-  }
-  shoot() {
-    if ((this.scene as PlayScene).enemies?.getChildren().length === 0) {
-      return;
-    }
-    const closestEnemy = this.scene.physics.closest(
-      this,
-      (this.scene as PlayScene).enemies.getChildren()
-    );
-    const distance = Phaser.Math.Distance.Between(
-      this.x,
-      this.y,
-      (closestEnemy as Enemy).x,
-      (closestEnemy as Enemy).y
-    );
-    if (distance > this.attackRange) {
-      return;
-    }
-    this.createMissile();
-  }
-  createMissile() {
-    new Missile(this.scene, {
-      shooter: this,
-      damage: this.damage,
-    })
-      .setX(this.x - 15)
-      .setY(this.y + 15);
-  }
+  // get upgradeCost() {
+  //   return this.damage * 2;
+  // }
+  // shoot() {
+  //   if ((this.scene as PlayScene).enemies?.getChildren().length === 0) {
+  //     return;
+  //   }
+  //   const closestEnemy = this.scene.physics.closest(
+  //     this,
+  //     (this.scene as PlayScene).enemies.getChildren()
+  //   );
+  //   const distance = Phaser.Math.Distance.Between(
+  //     this.x,
+  //     this.y,
+  //     (closestEnemy as Enemy).x,
+  //     (closestEnemy as Enemy).y
+  //   );
+  //   if (distance > this.attackRange) {
+  //     return;
+  //   }
+  //   this.createMissile();
+  // }
+  // createMissile() {
+  //   new Missile(this.scene, {
+  //     shooter: this,
+  //     damage: this.damage,
+  //   })
+  //     .setX(this.x - 15)
+  //     .setY(this.y + 15);
+  // }
   getMoveSpeed() {
     return this.moveSpeed * GAME.speed;
   }

@@ -1,5 +1,6 @@
 import * as Phaser from "phaser";
 import { PlayScene } from "@/phaser/scenes/playScene/PlayScene";
+import { Level2Scene } from "@/phaser/scenes/playScene/Level2Scene";
 
 const config: Phaser.Types.Core.GameConfig = {
   title: "project alpha",
@@ -18,7 +19,7 @@ const config: Phaser.Types.Core.GameConfig = {
   },
   // parent: "body",
   render: { pixelArt: true, antialias: false },
-  scene: [PlayScene],
+  scene: [PlayScene, Level2Scene],
   // fps: {
   //   target: 5,
   //   forceSetTimeOut: true,

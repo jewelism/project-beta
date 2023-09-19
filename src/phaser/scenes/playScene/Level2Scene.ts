@@ -1,18 +1,18 @@
 import { Exit } from "@/phaser/objects/Exit";
 import { Player } from "@/phaser/objects/Player";
 
-export class PlayScene extends Phaser.Scene {
+export class Level2Scene extends Phaser.Scene {
   player: Player;
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   exit: Exit;
 
   constructor() {
-    super("PlayScene");
+    super("Level2Scene");
   }
   preload() {
-    this.load.tilemapTiledJSON("map1", "assets/tiled/1.json");
+    this.load.tilemapTiledJSON("map2", "assets/tiled/2.json");
     this.load.image("Terrian", "assets/tiled/Tile1.0.1/Terrian.png");
-    // this.load.image("vegetation", "assets/tiled/Tile1.0.1/vegetation.png");
+    this.load.image("vegetation", "assets/tiled/Tile1.0.1/vegetation.png");
     this.load.spritesheet("player", "assets/Char2/Char2_idle_16px.png", {
       frameWidth: 16,
       frameHeight: 16,
@@ -40,9 +40,8 @@ export class PlayScene extends Phaser.Scene {
 
     this.physics.add.collider(this.player, collision_layer);
     this.physics.add.overlap(this.player, this.exit, () => {
-      console.log("take to next level2");
-      // this.scene.remove("PlayScene");
-      this.scene.start("Level2Scene");
+      console.log("take to next level3");
+      // this.scene.start("Level2Scene");
     });
     this.cameras.main
       .setBounds(0, 0, map.heightInPixels, map.widthInPixels)
@@ -53,15 +52,15 @@ export class PlayScene extends Phaser.Scene {
   shutdown() {}
   createMap() {
     const map = this.make.tilemap({
-      key: "map1",
+      key: "map2",
     });
-    // const vegetationTiles = map.addTilesetImage("vegetation", "vegetation");
+    const vegetationTiles = map.addTilesetImage("vegetation", "vegetation");
     const terrianTiles = map.addTilesetImage("Terrian", "Terrian");
-    map.createLayer("bg1", terrianTiles);
+    map.createLayer("bg", terrianTiles);
 
-    const collision_layer = map.createLayer("bg1_collision", [
+    const collision_layer = map.createLayer("bg_collision", [
       terrianTiles,
-      // vegetationTiles,
+      vegetationTiles,
     ]);
     collision_layer.setCollisionByExclusion([-1]);
 
