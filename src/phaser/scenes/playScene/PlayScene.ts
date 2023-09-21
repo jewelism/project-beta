@@ -12,7 +12,7 @@ export class PlayScene extends Phaser.Scene {
   preload() {
     this.load.tilemapTiledJSON("map1", "assets/tiled/1.json");
     this.load.image("Terrian", "assets/tiled/Tile1.0.1/Terrian.png");
-    // this.load.image("vegetation", "assets/tiled/Tile1.0.1/vegetation.png");
+    this.load.image("vegetation", "assets/tiled/Tile1.0.1/vegetation.png");
     this.load.spritesheet("player", "assets/Char2/Char2_idle_16px.png", {
       frameWidth: 16,
       frameHeight: 16,
@@ -29,13 +29,13 @@ export class PlayScene extends Phaser.Scene {
     const { map, collision_layer, playerSpawnPoint, exitPoint } =
       this.createMap();
 
-    this.player = new Player(this, {
-      x: playerSpawnPoint.x,
-      y: playerSpawnPoint.y,
-    });
     this.exit = new Exit(this, {
       x: exitPoint.x,
       y: exitPoint.y,
+    });
+    this.player = new Player(this, {
+      x: playerSpawnPoint.x,
+      y: playerSpawnPoint.y,
     });
 
     this.physics.add.collider(this.player, collision_layer);
@@ -55,13 +55,13 @@ export class PlayScene extends Phaser.Scene {
     const map = this.make.tilemap({
       key: "map1",
     });
-    // const vegetationTiles = map.addTilesetImage("vegetation", "vegetation");
+    const vegetationTiles = map.addTilesetImage("vegetation", "vegetation");
     const terrianTiles = map.addTilesetImage("Terrian", "Terrian");
-    map.createLayer("bg1", terrianTiles);
+    map.createLayer("bg", terrianTiles);
 
-    const collision_layer = map.createLayer("bg1_collision", [
+    const collision_layer = map.createLayer("bg_collision", [
       terrianTiles,
-      // vegetationTiles,
+      vegetationTiles,
     ]);
     collision_layer.setCollisionByExclusion([-1]);
 
