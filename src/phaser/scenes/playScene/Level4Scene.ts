@@ -2,17 +2,17 @@ import { Exit } from "@/phaser/objects/Exit";
 import { PixelAnimals } from "@/phaser/objects/PixelAnimals";
 import { Player } from "@/phaser/objects/Player";
 
-export class Level3Scene extends Phaser.Scene {
+export class Level4Scene extends Phaser.Scene {
   player: Player;
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   exit: Exit;
   ducks: Phaser.GameObjects.Group;
 
   constructor() {
-    super("Level3Scene");
+    super("Level4Scene");
   }
   preload() {
-    this.load.tilemapTiledJSON("map3", "assets/tiled/3.json");
+    this.load.tilemapTiledJSON("map4", "assets/tiled/3.json");
     this.load.image("Terrian", "assets/tiled/Tile1.0.1/Terrian.png");
     this.load.image("vegetation", "assets/tiled/Tile1.0.1/vegetation.png");
     this.load.spritesheet("player", "assets/Char2/Char2_idle_16px.png", {
@@ -51,9 +51,16 @@ export class Level3Scene extends Phaser.Scene {
 
     this.ducks = this.add.group();
     duckSpawnPoints.forEach(({ x, y }, index) => {
-      const animal = new PixelAnimals(this, { x, y, frameNo: index });
+      const animal = new PixelAnimals(this, {
+        x,
+        y,
+        frameNo: index,
+        moveMode: "random",
+      });
       this.ducks.add(animal);
     });
+    this.physics.add.collider(this.ducks, this.ducks);
+    this.physics.add.collider(this.ducks, this.exit);
     this.physics.add.collider(this.ducks, collision_layer);
     this.physics.add.collider(this.ducks, this.player, () => {
       this.scene.restart();
@@ -61,7 +68,8 @@ export class Level3Scene extends Phaser.Scene {
 
     this.physics.add.collider(this.player, collision_layer);
     this.physics.add.overlap(this.player, this.exit, () => {
-      this.scene.start("Level4Scene");
+      console.log("take to next level5");
+      // this.scene.start("Level5Scene");
     });
     this.cameras.main
       .setBounds(0, 0, map.heightInPixels, map.widthInPixels)
@@ -72,7 +80,7 @@ export class Level3Scene extends Phaser.Scene {
   shutdown() {}
   createMap() {
     const map = this.make.tilemap({
-      key: "map3",
+      key: "map4",
     });
     const vegetationTiles = map.addTilesetImage("vegetation", "vegetation");
     const terrianTiles = map.addTilesetImage("Terrian", "Terrian");

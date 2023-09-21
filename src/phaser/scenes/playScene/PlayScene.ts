@@ -40,8 +40,6 @@ export class PlayScene extends Phaser.Scene {
 
     this.physics.add.collider(this.player, collision_layer);
     this.physics.add.overlap(this.player, this.exit, () => {
-      console.log("take to next level2");
-      // this.scene.remove("PlayScene");
       this.scene.start("Level2Scene");
     });
     this.cameras.main
