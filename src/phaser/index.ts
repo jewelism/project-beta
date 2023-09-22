@@ -22,10 +22,7 @@ const config: Phaser.Types.Core.GameConfig = {
   },
   // parent: "body",
   render: { pixelArt: true, antialias: false },
-  scene: [
-    // PlayScene, Level2Scene, Level3Scene, Level4Scene,
-    Level5Scene,
-  ],
+  scene: [PlayScene, Level2Scene, Level3Scene, Level4Scene, Level5Scene],
   // fps: {
   //   target: 5,
   //   forceSetTimeOut: true,

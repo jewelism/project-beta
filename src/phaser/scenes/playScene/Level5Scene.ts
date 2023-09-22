@@ -65,12 +65,8 @@ export class Level5Scene extends Phaser.Scene {
       const safeArea = this.add.rectangle(x, y, width, height);
       safeArea.x += safeArea.width / 2;
       safeArea.y += safeArea.height / 2;
-      safeArea.setFillStyle(0x00ff00, 0.5);
-      // this.physics.add.existing(safeArea);
-      // this.physics.add.overlap(this.player, safeArea, () => {
-      //   console.log("safe");
-      //   this.player.safe = true;
-      // });
+      // safeArea.setFillStyle(0x00ff00, 0.5);
+
       return new Phaser.Geom.Rectangle(
         safeArea.x,
         safeArea.y,
