@@ -27,7 +27,7 @@ export class PixelAnimals extends Phaser.Physics.Arcade.Sprite {
     scene.physics.world.enableBody(this);
     scene.physics.add.existing(this);
     this.setCollideWorldBounds(true);
-    this.setImmovable(true);
+    // this.setImmovable(true);
   }
   preUpdate() {
     this.moveMode === "upDown" ? this.upDownMove() : this.randomMove();

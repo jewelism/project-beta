@@ -2,17 +2,18 @@ import { Exit } from "@/phaser/objects/Exit";
 import { PixelAnimals } from "@/phaser/objects/PixelAnimals";
 import { Player } from "@/phaser/objects/Player";
 
-export class Level4Scene extends Phaser.Scene {
+export class Level5Scene extends Phaser.Scene {
   player: Player;
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   exit: Exit;
   ducks: Phaser.GameObjects.Group;
+  safeAreas: Phaser.Geom.Rectangle[];
 
   constructor() {
-    super("Level4Scene");
+    super("Level5Scene");
   }
   preload() {
-    this.load.tilemapTiledJSON("map4", "assets/tiled/3.json");
+    this.load.tilemapTiledJSON("map5", "assets/tiled/5.json");
     this.load.image("Terrian", "assets/tiled/Tile1.0.1/Terrian.png");
     this.load.image("vegetation", "assets/tiled/Tile1.0.1/vegetation.png");
     this.load.spritesheet("player", "assets/Char2/Char2_idle_16px.png", {
@@ -38,6 +39,7 @@ export class Level4Scene extends Phaser.Scene {
       playerSpawnPoint,
       exitPoint,
       duckSpawnPoints,
+      safeAreaPoints,
     } = this.createMap();
 
     this.exit = new Exit(this, {
@@ -59,26 +61,56 @@ export class Level4Scene extends Phaser.Scene {
       });
       this.ducks.add(animal);
     });
+    this.safeAreas = safeAreaPoints.map(({ x, y, width, height }) => {
+      const safeArea = this.add.rectangle(x, y, width, height);
+      safeArea.x += safeArea.width / 2;
+      safeArea.y += safeArea.height / 2;
+      safeArea.setFillStyle(0x00ff00, 0.5);
+      // this.physics.add.existing(safeArea);
+      // this.physics.add.overlap(this.player, safeArea, () => {
+      //   console.log("safe");
+      //   this.player.safe = true;
+      // });
+      return new Phaser.Geom.Rectangle(
+        safeArea.x,
+        safeArea.y,
+        safeArea.width,
+        safeArea.height
+      );
+    });
 
     this.physics.add.collider(this.ducks, collision_layer);
     this.physics.add.collider(this.ducks, this.player, () => {
+      if (this.player.safe) {
+        return;
+      }
       this.scene.restart();
     });
 
     this.physics.add.collider(this.player, collision_layer);
     this.physics.add.overlap(this.player, this.exit, () => {
-      this.scene.start("Level5Scene");
+      console.log("take to next level5");
+      // this.scene.start("Level5Scene");
     });
     this.cameras.main
       .setBounds(0, 0, map.heightInPixels, map.widthInPixels)
       .startFollow(this.player)
       .setZoom(2);
   }
-  update() {}
+  update() {
+    const isSafe = this.safeAreas.some((safeArea) => {
+      return Phaser.Geom.Rectangle.Contains(
+        safeArea,
+        this.player.x,
+        this.player.y
+      );
+    });
+    this.player.safe = isSafe;
+  }
   shutdown() {}
   createMap() {
     const map = this.make.tilemap({
-      key: "map4",
+      key: "map5",
     });
     const vegetationTiles = map.addTilesetImage("vegetation", "vegetation");
     const terrianTiles = map.addTilesetImage("Terrian", "Terrian");
@@ -99,6 +131,9 @@ export class Level4Scene extends Phaser.Scene {
     const duckSpawnPoints = map.filterObjects("Duck", ({ name }) => {
       return name.includes("Duck");
     });
+    const safeAreaPoints = map.filterObjects("SafeArea", ({ name }) => {
+      return name.includes("SafeArea");
+    });
 
     return {
       map,
@@ -106,6 +141,7 @@ export class Level4Scene extends Phaser.Scene {
       playerSpawnPoint,
       exitPoint,
       duckSpawnPoints,
+      safeAreaPoints,
     };
   }
 }

@@ -3,6 +3,7 @@ import { GAME } from "@/phaser/constants";
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
   blocked = false;
+  safe = false;
   attackTimer: Phaser.Time.TimerEvent;
   attackRange: number = 200;
   attackSpeed: number = 300;
