@@ -38,8 +38,9 @@ export class PixelAnimals extends Phaser.Physics.Arcade.Sprite {
       return;
     }
     this.moveTimer = this.scene.time.delayedCall(delay, () => {
-      this.setVelocityY(this.y > 199 ? -this.moveSpeed : this.moveSpeed);
-      if (this.y > 199) {
+      const maxY = 192;
+      this.setVelocityY(this.y >= maxY ? -this.moveSpeed : this.moveSpeed);
+      if (this.y >= maxY) {
         this.setFlipX(true);
         this.anims.play(`pixel_animals_move${this.frameNo}`, true);
       } else {
