@@ -62,10 +62,10 @@ export class Level5Scene extends Phaser.Scene {
       this.ducks.add(animal);
     });
     this.safeAreas = safeAreaPoints.map(({ x, y, width, height }) => {
-      const safeArea = this.add.rectangle(x, y, width, height);
-      safeArea.x += safeArea.width / 2;
-      safeArea.y += safeArea.height / 2;
-      // safeArea.setFillStyle(0x00ff00, 0.5);
+      const safeArea = this.add
+        .rectangle(x - 1, y - 1, width + 2, height + 2)
+        .setOrigin(0, 0);
+      safeArea.setFillStyle(0x00ff00, 0.5);
 
       return new Phaser.Geom.Rectangle(
         safeArea.x,
@@ -76,7 +76,7 @@ export class Level5Scene extends Phaser.Scene {
     });
 
     this.physics.add.collider(this.ducks, collision_layer);
-    this.physics.add.collider(this.ducks, this.player, () => {
+    this.physics.add.overlap(this.ducks, this.player, () => {
       if (this.player.safe) {
         return;
       }
@@ -95,11 +95,14 @@ export class Level5Scene extends Phaser.Scene {
   }
   update() {
     const isSafe = this.safeAreas.some((safeArea) => {
-      return Phaser.Geom.Rectangle.Contains(
-        safeArea,
+      const playerRect = new Phaser.Geom.Rectangle(
         this.player.x,
-        this.player.y
+        this.player.y,
+        this.player.width,
+        this.player.height
       );
+
+      return Phaser.Geom.Rectangle.ContainsRect(safeArea, playerRect);
     });
     this.player.safe = isSafe;
   }

@@ -20,23 +20,24 @@ export class PixelAnimals extends Phaser.Physics.Arcade.Sprite {
       }),
     });
     this.frameNo = frameNo;
-    // 왜 이런 보정이 필요한가?
-    this.x += this.width / 2;
-    this.y += this.height / 2;
     scene.add.existing(this);
     scene.physics.world.enableBody(this);
     scene.physics.add.existing(this);
     this.setCollideWorldBounds(true);
+    this.setOrigin(0, 0);
     // this.setImmovable(true);
   }
   preUpdate() {
-    this.moveMode === "upDown" ? this.upDownMove() : this.randomMove();
+    const delay = 700;
+    this.moveMode === "upDown"
+      ? this.upDownMove(delay)
+      : this.randomMove(delay);
   }
-  upDownMove() {
+  upDownMove(delay: number) {
     if (this.moveTimer) {
       return;
     }
-    this.moveTimer = this.scene.time.delayedCall(1000, () => {
+    this.moveTimer = this.scene.time.delayedCall(delay, () => {
       this.setVelocityY(this.y > 199 ? -this.moveSpeed : this.moveSpeed);
       if (this.y > 199) {
         this.setFlipX(true);
@@ -48,11 +49,11 @@ export class PixelAnimals extends Phaser.Physics.Arcade.Sprite {
       this.moveTimer = null;
     });
   }
-  randomMove() {
+  randomMove(delay) {
     if (this.moveTimer) {
       return;
     }
-    this.moveTimer = this.scene.time.delayedCall(1000, () => {
+    this.moveTimer = this.scene.time.delayedCall(delay, () => {
       const randomVelocity = Phaser.Math.RandomXY(
         new Phaser.Math.Vector2(),
         this.moveSpeed

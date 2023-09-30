@@ -31,9 +31,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     //     frameRate: 5,
     //   });
     // });
-    // 왜 이런 보정이 필요한가?
-    this.x += this.width / 2;
-    this.y += this.height / 2;
     scene.missiles = scene.add.group();
 
     scene.add.existing(this);
@@ -41,6 +38,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     scene.physics.world.enableBody(this);
     // this.setCollideWorldBounds(true);
     this.setImmovable(true);
+    this.setOrigin(0, 0);
     // scene.m_beamSound.play();
   }
 
