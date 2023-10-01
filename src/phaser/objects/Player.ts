@@ -1,4 +1,3 @@
-import { PlayScene } from "../scenes/playScene/PlayScene";
 import { GAME } from "@/phaser/constants";
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
@@ -90,7 +89,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     return this.moveSpeed * GAME.speed;
   }
   playerMove() {
-    const { left, right, up, down } = (this.scene as PlayScene).cursors;
+    const { left, right, up, down } = (this.scene as any).cursors;
     if (left.isDown && up.isDown) {
       this.setFlipX(true);
       this.setVelocityX(-this.getMoveSpeed());

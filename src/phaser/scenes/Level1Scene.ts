@@ -1,13 +1,13 @@
 import { Exit } from "@/phaser/objects/Exit";
 import { Player } from "@/phaser/objects/Player";
 
-export class PlayScene extends Phaser.Scene {
+export class Level1Scene extends Phaser.Scene {
   player: Player;
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   exit: Exit;
 
   constructor() {
-    super("PlayScene");
+    super("Level1Scene");
   }
   preload() {
     this.load.tilemapTiledJSON("map1", "assets/tiled/1.json");

@@ -1,6 +1,7 @@
 import { Exit } from "@/phaser/objects/Exit";
 import { PixelAnimals } from "@/phaser/objects/PixelAnimals";
 import { Player } from "@/phaser/objects/Player";
+import { makeSafeArea } from "@/phaser/phaserUtils/safeArea";
 
 export class Level5Scene extends Phaser.Scene {
   player: Player;
@@ -61,19 +62,7 @@ export class Level5Scene extends Phaser.Scene {
       });
       this.ducks.add(animal);
     });
-    this.safeAreas = safeAreaPoints.map(({ x, y, width, height }) => {
-      const safeArea = this.add
-        .rectangle(x - 1, y - 1, width + 2, height + 2)
-        .setOrigin(0, 0);
-      safeArea.setFillStyle(0x00ff00, 0.5);
-
-      return new Phaser.Geom.Rectangle(
-        safeArea.x,
-        safeArea.y,
-        safeArea.width,
-        safeArea.height
-      );
-    });
+    this.safeAreas = makeSafeArea(this, safeAreaPoints);
 
     this.physics.add.collider(this.ducks, collision_layer);
     this.physics.add.overlap(this.ducks, this.player, () => {
