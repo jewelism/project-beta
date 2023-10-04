@@ -1,6 +1,7 @@
 import { Exit } from "@/phaser/objects/Exit";
 import { PixelAnimals } from "@/phaser/objects/PixelAnimals";
 import { Player } from "@/phaser/objects/Player";
+import { createMap, preloadBaseAssets } from "@/phaser/phaserUtils/getBaseMap";
 
 export class Level3Scene extends Phaser.Scene {
   player: Player;
@@ -12,18 +13,13 @@ export class Level3Scene extends Phaser.Scene {
     super("Level3Scene");
   }
   preload() {
-    this.load.tilemapTiledJSON("map3", "assets/tiled/3.json");
-    this.load.image("Terrian", "assets/tiled/Tile1.0.1/Terrian.png");
-    this.load.image("vegetation", "assets/tiled/Tile1.0.1/vegetation.png");
+    preloadBaseAssets(this, {
+      mapName: "map3",
+      path: "assets/tiled/pastel3.json",
+    });
     this.load.spritesheet("player", "assets/Char2/Char2_idle_16px.png", {
       frameWidth: 16,
       frameHeight: 16,
-    });
-    this.load.spritesheet("exit", "assets/tiled/Tile1.0.1/Dungeon.png", {
-      frameWidth: 16,
-      frameHeight: 16,
-      startFrame: 86,
-      endFrame: 86,
     });
     this.load.spritesheet("pixel_animals", "assets/pixel_animals.png", {
       frameWidth: 16,
@@ -32,22 +28,7 @@ export class Level3Scene extends Phaser.Scene {
   }
   create() {
     this.cursors = this.input.keyboard.createCursorKeys();
-    const {
-      map,
-      collision_layer,
-      playerSpawnPoint,
-      exitPoint,
-      duckSpawnPoints,
-    } = this.createMap();
-
-    this.exit = new Exit(this, {
-      x: exitPoint.x,
-      y: exitPoint.y,
-    });
-    this.player = new Player(this, {
-      x: playerSpawnPoint.x,
-      y: playerSpawnPoint.y,
-    });
+    const { player, collision_layer, duckSpawnPoints } = this.createMap();
 
     this.ducks = this.add.group();
     duckSpawnPoints.forEach(({ x, y }, index) => {
@@ -55,40 +36,16 @@ export class Level3Scene extends Phaser.Scene {
       this.ducks.add(animal);
     });
     this.physics.add.collider(this.ducks, collision_layer);
-    this.physics.add.collider(this.ducks, this.player, () => {
+    this.physics.add.collider(this.ducks, player, () => {
       this.scene.restart();
     });
-
-    this.physics.add.collider(this.player, collision_layer);
-    this.physics.add.overlap(this.player, this.exit, () => {
-      this.scene.start("Level4Scene");
-    });
-    this.cameras.main
-      .setBounds(0, 0, map.heightInPixels, map.widthInPixels)
-      .startFollow(this.player)
-      .setZoom(2);
   }
   update() {}
   shutdown() {}
   createMap() {
-    const map = this.make.tilemap({
-      key: "map3",
-    });
-    const vegetationTiles = map.addTilesetImage("vegetation", "vegetation");
-    const terrianTiles = map.addTilesetImage("Terrian", "Terrian");
-    map.createLayer("bg", terrianTiles);
-
-    const collision_layer = map.createLayer("bg_collision", [
-      terrianTiles,
-      vegetationTiles,
-    ]);
-    collision_layer.setCollisionByExclusion([-1]);
-
-    const playerSpawnPoint = map.findObject("PlayerSpawn", ({ name }) => {
-      return name === "PlayerSpawn1";
-    });
-    const exitPoint = map.findObject("Exit", ({ name }) => {
-      return name === "Exit";
+    const { map, collision_layer, player } = createMap(this, {
+      mapKey: "map3",
+      nextSceneKey: "Level4Scene",
     });
     const duckSpawnPoints = map.filterObjects("Duck", ({ name }) => {
       return name.includes("Duck");
@@ -97,8 +54,7 @@ export class Level3Scene extends Phaser.Scene {
     return {
       map,
       collision_layer,
-      playerSpawnPoint,
-      exitPoint,
+      player,
       duckSpawnPoints,
     };
   }

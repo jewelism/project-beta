@@ -26,7 +26,7 @@ const config: Phaser.Types.Core.GameConfig = {
   // parent: "body",
   render: { pixelArt: true, antialias: false },
   scene: [
-    // StartScene,
+    StartScene,
     SelectLevelScene,
     Level1Scene,
     Level2Scene,

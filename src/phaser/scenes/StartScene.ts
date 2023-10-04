@@ -27,9 +27,10 @@ export class StartScene extends Phaser.Scene {
       yoyo: true,
       repeat: -1,
     });
-    this.input.keyboard.on("keydown", () => {
-      // 키가 눌렸을 때 실행할 코드
+    const onKeydown = () => {
       this.scene.start("SelectLevelScene");
-    });
+    };
+    this.input.keyboard.on("keydown", onKeydown);
+    this.input.on("pointerdown", onKeydown);
   }
 }
