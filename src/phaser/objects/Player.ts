@@ -36,8 +36,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     scene.physics.add.existing(this);
     scene.physics.world.enableBody(this);
     // this.setCollideWorldBounds(true);
-    this.setImmovable(true);
-    this.setOrigin(0, 0);
+    this.setOrigin(0, 0).setCircle(5, 3, 3).setDepth(9).setImmovable(true);
+
     // scene.m_beamSound.play();
   }
 

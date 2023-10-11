@@ -32,6 +32,39 @@
         }, 
         {
          "draworder":"topdown",
+         "id":7,
+         "name":"Star",
+         "objects":[
+                {
+                 "height":16,
+                 "id":12,
+                 "name":"Star1",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":96,
+                 "y":63
+                }, 
+                {
+                 "height":16,
+                 "id":13,
+                 "name":"Star2",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":96,
+                 "y":160
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "id":6,
          "name":"SafeArea",
          "objects":[
@@ -184,8 +217,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":7,
- "nextobjectid":12,
+ "nextlayerid":8,
+ "nextobjectid":14,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

@@ -7,6 +7,7 @@ import { Level2Scene } from "@/phaser/scenes/Level2Scene";
 import { Level3Scene } from "@/phaser/scenes/Level3Scene";
 import { Level4Scene } from "@/phaser/scenes/Level4Scene";
 import { Level5Scene } from "@/phaser/scenes/Level5Scene";
+import { Level6Scene } from "@/phaser/scenes/Level6Scene";
 
 const config: Phaser.Types.Core.GameConfig = {
   title: "project alpha",
@@ -26,14 +27,16 @@ const config: Phaser.Types.Core.GameConfig = {
   // parent: "body",
   render: { pixelArt: true, antialias: false },
   scene: [
-    StartScene,
+    // StartScene,
     SelectLevelScene,
     Level1Scene,
     Level2Scene,
     Level3Scene,
     Level4Scene,
     Level5Scene,
+    Level6Scene,
   ],
+  backgroundColor: "#222",
   // fps: {
   //   target: 10,
   //   forceSetTimeOut: true,

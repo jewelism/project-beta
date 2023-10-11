@@ -23,8 +23,12 @@ export class PixelAnimals extends Phaser.Physics.Arcade.Sprite {
     scene.add.existing(this);
     scene.physics.world.enableBody(this);
     scene.physics.add.existing(this);
-    this.setCollideWorldBounds(true);
-    this.setOrigin(0, 0);
+
+    this.setOrigin(0, 0)
+      .setCircle(4, 3, 4)
+      .setDepth(9)
+      .setCollideWorldBounds(true);
+
     // this.setImmovable(true);
   }
   preUpdate() {

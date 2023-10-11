@@ -42,7 +42,7 @@ export function createMap(
     .startFollow(player)
     .setZoom(2);
 
-  return { map, jew_pastel_lineTiles, collision_layer, player };
+  return { map, jew_pastel_lineTiles, collision_layer, player, exit };
 }
 
 export function preloadBaseAssets(

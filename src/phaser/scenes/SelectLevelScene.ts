@@ -13,7 +13,7 @@ export class SelectLevelScene extends Phaser.Scene {
 
     createTitleText(this, "Select Level", 100);
 
-    Array.from({ length: 5 }).forEach((_, index) => {
+    Array.from({ length: 6 }).forEach((_, index) => {
       new SelectLevelButton(this, {
         x: 100,
         y: 200 + index * 50,

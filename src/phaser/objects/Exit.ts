@@ -1,6 +1,4 @@
 export class Exit extends Phaser.Physics.Arcade.Sprite {
-  blocked = false;
-
   constructor(scene, { x, y }) {
     super(scene, x, y, "exit");
 
@@ -9,6 +7,12 @@ export class Exit extends Phaser.Physics.Arcade.Sprite {
     this.setImmovable(true);
     this.setOrigin(0, 0);
   }
-
-  preUpdate() {}
+  block() {
+    this.disableBody();
+    this.setAlpha(0.3);
+  }
+  open() {
+    this.enableBody();
+    this.setAlpha(1);
+  }
 }
