@@ -5,7 +5,7 @@ export class Star extends Phaser.Physics.Arcade.Sprite {
     scene.add.existing(this);
     scene.physics.add.existing(this);
     this.setImmovable(true);
-    this.setOrigin(0, 0).setScale(0.7).setCircle(5, 4, 6);
+    this.setOrigin(0, 0).setScale(0.8).setCircle(5, 3, 4);
     this.anims.create({
       key: `star`,
       frames: this.anims.generateFrameNames("star", {
