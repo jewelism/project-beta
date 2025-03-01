@@ -3,13 +3,9 @@ import { getUIStyle } from "@/phaser/constants";
 export class Counter extends Phaser.GameObjects.Text {
   constructor(
     scene: Phaser.Scene,
-    {
-      width,
-      height,
-      template,
-    }: { width: number; height: number; template: string }
+    { x, y, template }: { x: number; y: number; template: string }
   ) {
-    super(scene, width, height, template, getUIStyle());
+    super(scene, x, y, template, getUIStyle());
     scene.add.existing(this);
   }
 }

@@ -1,5 +1,4 @@
 import { Button } from "@/phaser/objects/Button";
-import { PlayScene } from "@/phaser/scenes/playScene/PlayScene";
 
 export class UpgradeLayer extends Phaser.GameObjects.Graphics {
   constructor(scene: Phaser.Scene) {
@@ -27,7 +26,7 @@ export class UpgradeLayer extends Phaser.GameObjects.Graphics {
       .setScrollFactor(0)
       .setDepth(2);
 
-    (scene as PlayScene).cursors.space.on("down", onClickClose);
+    (scene as any).cursors.space.on("down", onClickClose);
 
     scene.add.existing(XButton);
   }

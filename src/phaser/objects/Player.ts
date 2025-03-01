@@ -1,4 +1,3 @@
-import { PlayScene } from "../scenes/playScene/PlayScene";
 import { GAME } from "@/phaser/constants";
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
@@ -8,7 +7,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
   attackRange: number = 200;
   attackSpeed: number = 300;
   damage: number;
-  moveSpeed: number = 150;
+  moveSpeed: number = 100;
 
   constructor(scene, { x, y }) {
     super(scene, x, y, "player");
@@ -37,8 +36,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     scene.physics.add.existing(this);
     scene.physics.world.enableBody(this);
     // this.setCollideWorldBounds(true);
-    this.setImmovable(true);
-    this.setOrigin(0, 0);
+    this.setOrigin(0, 0).setCircle(5, 3, 3).setDepth(9).setImmovable(true);
+
     // scene.m_beamSound.play();
   }
 
@@ -90,7 +89,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     return this.moveSpeed * GAME.speed;
   }
   playerMove() {
-    const { left, right, up, down } = (this.scene as PlayScene).cursors;
+    const { left, right, up, down } = (this.scene as any).cursors;
     if (left.isDown && up.isDown) {
       this.setFlipX(true);
       this.setVelocityX(-this.getMoveSpeed());

@@ -4,7 +4,7 @@ export class PixelAnimals extends Phaser.Physics.Arcade.Sprite {
   attackSpeed: number = 300;
   damage: number;
   cursors: Phaser.Types.Input.Keyboard.CursorKeys;
-  moveSpeed: number = 100;
+  moveSpeed: number = 150;
   frameNo: number;
   moveTimer: Phaser.Time.TimerEvent;
   moveMode: string;
@@ -23,8 +23,12 @@ export class PixelAnimals extends Phaser.Physics.Arcade.Sprite {
     scene.add.existing(this);
     scene.physics.world.enableBody(this);
     scene.physics.add.existing(this);
-    this.setCollideWorldBounds(true);
-    this.setOrigin(0, 0);
+
+    this.setOrigin(0, 0)
+      .setCircle(4, 3, 4)
+      .setDepth(9)
+      .setCollideWorldBounds(true);
+
     // this.setImmovable(true);
   }
   preUpdate() {
@@ -38,7 +42,7 @@ export class PixelAnimals extends Phaser.Physics.Arcade.Sprite {
       return;
     }
     this.moveTimer = this.scene.time.delayedCall(delay, () => {
-      const maxY = 192;
+      const maxY = 160;
       this.setVelocityY(this.y >= maxY ? -this.moveSpeed : this.moveSpeed);
       if (this.y >= maxY) {
         this.setFlipX(true);
