@@ -3,7 +3,10 @@ import { PixelAnimals } from "@/phaser/objects/PixelAnimals";
 import { Player } from "@/phaser/objects/Player";
 import { Star } from "@/phaser/objects/Star";
 import { StarCounter } from "@/phaser/objects/counter/StarCounter";
-import { createMap, preloadBaseAssets } from "@/phaser/phaserUtils/getBaseMap";
+import {
+  createMap1to6,
+  preloadBaseAssets,
+} from "@/phaser/phaserUtils/getBaseMap";
 import { makeSafeArea } from "@/phaser/phaserUtils/safeArea";
 
 export class Level6Scene extends Phaser.Scene {
@@ -22,20 +25,6 @@ export class Level6Scene extends Phaser.Scene {
     preloadBaseAssets(this, {
       mapName: "map6",
       path: "assets/tiled/pastel6.json",
-    });
-    this.load.spritesheet("star", "assets/jew_pastel_item.png", {
-      frameWidth: 16,
-      frameHeight: 16,
-      startFrame: 0,
-      endFrame: 1,
-    });
-    this.load.spritesheet("player", "assets/Char2/Char2_idle_16px.png", {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-    this.load.spritesheet("pixel_animals", "assets/pixel_animals.png", {
-      frameWidth: 16,
-      frameHeight: 16,
     });
   }
   create() {
@@ -66,7 +55,7 @@ export class Level6Scene extends Phaser.Scene {
     this.starCounter = new StarCounter(
       this,
       Number(this.game.config.width) - 600,
-      10,
+      30,
       starSpawnPoints.length
     );
 
@@ -103,7 +92,7 @@ export class Level6Scene extends Phaser.Scene {
   shutdown() {}
   createMap() {
     const { map, jew_pastel_lineTiles, collision_layer, player, exit } =
-      createMap(this, {
+      createMap1to6(this, {
         mapKey: "map6",
         nextSceneKey: "Level7Scene",
       });

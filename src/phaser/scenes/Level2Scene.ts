@@ -1,6 +1,9 @@
 import { Exit } from "@/phaser/objects/Exit";
 import { Player } from "@/phaser/objects/Player";
-import { createMap, preloadBaseAssets } from "@/phaser/phaserUtils/getBaseMap";
+import {
+  createMap1to6,
+  preloadBaseAssets,
+} from "@/phaser/phaserUtils/getBaseMap";
 
 export class Level2Scene extends Phaser.Scene {
   player: Player;
@@ -18,7 +21,7 @@ export class Level2Scene extends Phaser.Scene {
   }
   create() {
     this.cursors = this.input.keyboard.createCursorKeys();
-    createMap(this, {
+    createMap1to6(this, {
       mapKey: "map2",
       nextSceneKey: "Level3Scene",
     });

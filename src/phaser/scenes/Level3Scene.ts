@@ -1,7 +1,10 @@
 import { Exit } from "@/phaser/objects/Exit";
 import { PixelAnimals } from "@/phaser/objects/PixelAnimals";
 import { Player } from "@/phaser/objects/Player";
-import { createMap, preloadBaseAssets } from "@/phaser/phaserUtils/getBaseMap";
+import {
+  createMap1to6,
+  preloadBaseAssets,
+} from "@/phaser/phaserUtils/getBaseMap";
 
 export class Level3Scene extends Phaser.Scene {
   player: Player;
@@ -16,14 +19,6 @@ export class Level3Scene extends Phaser.Scene {
     preloadBaseAssets(this, {
       mapName: "map3",
       path: "assets/tiled/pastel3.json",
-    });
-    this.load.spritesheet("player", "assets/Char2/Char2_idle_16px.png", {
-      frameWidth: 16,
-      frameHeight: 16,
-    });
-    this.load.spritesheet("pixel_animals", "assets/pixel_animals.png", {
-      frameWidth: 16,
-      frameHeight: 16,
     });
   }
   create() {
@@ -43,7 +38,7 @@ export class Level3Scene extends Phaser.Scene {
   update() {}
   shutdown() {}
   createMap() {
-    const { map, collision_layer, player } = createMap(this, {
+    const { map, collision_layer, player } = createMap1to6(this, {
       mapKey: "map3",
       nextSceneKey: "Level4Scene",
     });
